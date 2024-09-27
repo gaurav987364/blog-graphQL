@@ -1,95 +1,98 @@
-
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ChevronLeft, Clock } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { useSearchParams } from 'react-router-dom';
 import { ApiKey } from '../utils/Key';
 
+// Define an interface for the blog post
+interface BlogPost {
+  id: string;
+  title: string;
+  body: string;
+}
 
 const GitHubBlogPost = () => {
-    const navigate = useNavigate();
-    const [searchParams] = useSearchParams();
-    const blogId = searchParams.get('id');
-    
-    const [blogPost, setBlogPost] = useState(null);
-    const [loading, setLoading] = useState(true);
-    const goBack = ()=>{
-        navigate(-1)
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const blogId = searchParams.get('id');
+
+  const [blogPost, setBlogPost] = useState<BlogPost | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+
+  const goBack = () => {
+    navigate(-1);
+  };
+
+  useEffect(() => {
+    // Check if blogId exists
+    if (!blogId) {
+      setLoading(false); // Stop loading if no blogId
+      return;
     }
-    useEffect(() => {
-        // Check if blogId exists
-        //console.log('Current blogId:', blogId); // Log to verify blogId
-        if (!blogId) {
-          setLoading(false); // Stop loading if no blogId
-          return;
-        }
-        
-        // Fetching data from API
-        const myHeaders = new Headers();
-        myHeaders.append(
-          'apiKey',
-          `${ApiKey}`
-        );
-        myHeaders.append('Content-Type', 'application/json');
-    
-        const graphql = JSON.stringify({
-          query: `
-            query getBlogs {
-              blogCollection(filter: {id: {eq: "${blogId}"}}) {
-                edges {
-                  node {
-                    id
-                    title
-                    body
-                  }
-                }
+
+    // Fetching data from API
+    const myHeaders = new Headers();
+    myHeaders.append('apiKey', ApiKey);
+    myHeaders.append('Content-Type', 'application/json');
+
+    const graphql = JSON.stringify({
+      query: `
+        query getBlogs {
+          blogCollection(filter: {id: {eq: "${blogId}"}}) {
+            edges {
+              node {
+                id
+                title
+                body
               }
             }
-          `,
-          variables: {},
-        });
-    
-        const requestOptions = {
-          method: 'POST',
-          headers: myHeaders,
-          body: graphql,
-          redirect: 'follow',
-        };
-    
-        fetch('https://vorwurfphwkozuowdpgy.supabase.co/graphql/v1', requestOptions)
-          .then((response) => response.json())
-          .then((result) => {
-            //console.log('API Response:', result); // Log the result to check the structure
-            const blogs = result.data.blogCollection.edges.map((edge) => edge.node);
-            if (blogs.length > 0) {
-              setBlogPost(blogs[0]); // Set the first blog post data
-            } else {
-              console.warn('No blogs found for the given ID'); // Warn if no blogs are found
-            }
-            setLoading(false); // Stop loading once data is fetched
-          })
-          .catch((error) => {
-            console.error('Error fetching blog data:', error);
-            setLoading(false); // Stop loading even if there's an error
-          });
-      }, [blogId]); // Dependency array to re-run effect when blogId changes
-    
-    
-      if (loading) {
-        return (
-          <div className="min-h-screen bg-gray-900 text-gray-300 p-4 md:p-8">
-            <h2>Loading...</h2>
-          </div>
-        );
-      }
-    
-      if (!blogPost) {
-        return (
-          <div className="min-h-screen bg-gray-900 text-gray-300 p-4 md:p-8">
-            <h2>No blog post found.</h2>
-          </div>
-        );
-      }
+          }
+        }
+      `,
+      variables: {},
+    });
+
+    const requestOptions: RequestInit = {
+      method: 'POST',
+      headers: myHeaders,
+      body: graphql,
+      redirect: 'follow',
+    };
+
+    fetch('https://vorwurfphwkozuowdpgy.supabase.co/graphql/v1', requestOptions)
+      .then((response) => response.json())
+      .then((result) => {
+        const blogs = result.data?.blogCollection?.edges?.map((edge: any) => edge.node);
+        if (blogs && blogs.length > 0) {
+          setBlogPost(blogs[0]); // Set the first blog post data
+        } else {
+          console.warn('No blogs found for the given ID');
+        }
+        setLoading(false); // Stop loading once data is fetched
+      })
+      .catch((error) => {
+        console.error('Error fetching blog data:', error);
+        setLoading(false); // Stop loading even if there's an error
+      });
+  }, [blogId]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gray-900 text-gray-300 p-4 md:p-8">
+        <h2>Loading...</h2>
+      </div>
+    );
+  }
+
+  if (!blogPost) {
+    return (
+      <div className="min-h-screen bg-gray-900 text-gray-300 p-4 md:p-8">
+        <h2>No blog post found.</h2>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-gray-900 text-gray-300 p-4 md:p-8">
       <header className="mb-8 text-center">

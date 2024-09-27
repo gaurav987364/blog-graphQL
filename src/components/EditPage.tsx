@@ -7,40 +7,40 @@ import { ApiKey } from '../utils/Key';
 interface BlogFormData {
   blogTitle: string;
   blogContent: string;
-  id?: string; // Make id optional since it may not be available during creation
+  id?: string; // id is optional since it may not be available during creation
 }
-
-
-
-
 
 const GitHubBlogEditor = () => {
   const { register, handleSubmit, reset } = useForm<BlogFormData>();
   const [blogData, setBlogData] = useState<BlogFormData | null>(null);
+  console.log(blogData);
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const blogId = searchParams.get('id');
 
   const onSubmit: SubmitHandler<BlogFormData> = async (data) => {
     setBlogData(data);
-    console.log('Submit button clicked');
 
-    if (blogId) {
-      // If blogId exists, update the blog
-      await updateBlog(data);
-    } else {
-      // Otherwise, create a new blog
-      await createBlog(data);
+    try {
+      if (blogId) {
+        // Update blog if blogId exists
+        await updateBlog(data);
+      } else {
+        // Create a new blog
+        await createBlog(data);
+      }
+
+      // Clear the form and navigate back to the home page
+      reset();
+      navigate('/');
+    } catch (error) {
+      console.error('Error submitting blog:', error);
     }
-
-    // Clear the form and navigate back to the home
-    reset();
-    navigate('/');
   };
 
-  const createBlog = async (data: BlogFormData) => {
+  const createBlog = async (data: BlogFormData): Promise<void> => {
     const myHeaders = new Headers();
-    myHeaders.append("apiKey", `${ApiKey}`); // Replace with your actual API key
+    myHeaders.append("apiKey", `${ApiKey}`);
     myHeaders.append("Content-Type", "application/json");
 
     const graphql = JSON.stringify({
@@ -56,7 +56,7 @@ const GitHubBlogEditor = () => {
       variables: { title: data.blogTitle, body: data.blogContent },
     });
 
-    const requestOptions = {
+    const requestOptions: RequestInit = {
       method: 'POST',
       headers: myHeaders,
       body: graphql,
@@ -74,9 +74,9 @@ const GitHubBlogEditor = () => {
     }
   };
 
-  const updateBlog = async (data: BlogFormData) => {
+  const updateBlog = async (data: BlogFormData): Promise<void> => {
     const myHeaders = new Headers();
-    myHeaders.append("apiKey", `${ApiKey}`); // Replace with your actual API key
+    myHeaders.append("apiKey", `${ApiKey}`);
     myHeaders.append("Content-Type", "application/json");
 
     const graphql = JSON.stringify({
@@ -93,7 +93,7 @@ const GitHubBlogEditor = () => {
       variables: {},
     });
 
-    const requestOptions = {
+    const requestOptions: RequestInit = {
       method: 'POST',
       headers: myHeaders,
       body: graphql,
@@ -111,16 +111,14 @@ const GitHubBlogEditor = () => {
     }
   };
 
-  const handleDelete = async () => {
+  const handleDelete = async (): Promise<void> => {
     if (!blogId) {
       console.error('Blog ID is required for deletion');
       return;
     }
 
-    console.log('Delete button clicked');
-
     const myHeaders = new Headers();
-    myHeaders.append("apiKey", `${ApiKey}`); // Replace with your actual API key
+    myHeaders.append("apiKey", `${ApiKey}`);
     myHeaders.append("Content-Type", "application/json");
 
     const graphql = JSON.stringify({
@@ -137,7 +135,7 @@ const GitHubBlogEditor = () => {
       variables: {},
     });
 
-    const requestOptions = {
+    const requestOptions: RequestInit = {
       method: 'POST',
       headers: myHeaders,
       body: graphql,

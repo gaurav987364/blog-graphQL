@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Search } from 'lucide-react';
 import Card from './Card';
 import { FaBuilding, FaGithub } from "react-icons/fa";
@@ -6,9 +7,16 @@ import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { ApiKey } from '../utils/Key';
 
+// Define interface for BlogPost
+interface BlogPost {
+  id: string;
+  title: string;
+  content: string;
+}
+
 const GitHubBlog = () => {
-  const [blogPosts, setBlogPosts] = useState([]);
-  const [searchTerm, setSearchTerm] = useState(''); // State for search term
+  const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]); // Correct type for blogPosts
+  const [searchTerm, setSearchTerm] = useState<string>(''); // Type for searchTerm
 
   useEffect(() => {
     const fetchBlogData = async () => {
@@ -40,7 +48,7 @@ const GitHubBlog = () => {
         method: 'POST',
         headers: myHeaders,
         body: graphql,
-        redirect: 'follow',
+        redirect: 'follow'as RequestRedirect,
       };
 
       try {
@@ -49,11 +57,14 @@ const GitHubBlog = () => {
           requestOptions
         );
         const result = await response.json();
-        const blogs = result.data?.blogCollection?.edges?.map((edge: any) => ({
+        
+        // Ensure the response is typed correctly
+        const blogs: BlogPost[] = result.data?.blogCollection?.edges?.map((edge: any) => ({
           id: edge.node.id,
           title: edge.node.title,
           content: edge.node.body,
-        }));
+        })) || [];
+        
         setBlogPosts(blogs);
       } catch (error) {
         console.error('Error fetching blog data:', error);
@@ -69,7 +80,7 @@ const GitHubBlog = () => {
   };
 
   // Filter blog posts based on the search term
-  const filteredBlogPosts = blogPosts.filter(blog => 
+  const filteredBlogPosts = blogPosts.filter((blog) => 
     blog.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
     blog.content.toLowerCase().includes(searchTerm.toLowerCase())
   );
