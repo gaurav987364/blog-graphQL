@@ -3,6 +3,7 @@ import { ChevronLeft, Clock } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { useSearchParams } from 'react-router-dom';
+import { ApiKey } from '../utils/Key';
 
 
 const GitHubBlogPost = () => {
@@ -27,7 +28,7 @@ const GitHubBlogPost = () => {
         const myHeaders = new Headers();
         myHeaders.append(
           'apiKey',
-          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZvcnd1cmZwaHdrb3p1b3dkcGd5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjY3Mzc4ODMsImV4cCI6MjA0MjMxMzg4M30.RecumY6-7pD0Gh1_EXRibOfTuuDrBWAP7AtwfCiReFo'
+          `${ApiKey}`
         );
         myHeaders.append('Content-Type', 'application/json');
     

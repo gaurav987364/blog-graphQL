@@ -4,6 +4,7 @@ import { FaBuilding, FaGithub } from "react-icons/fa";
 import { MdPeopleAlt } from "react-icons/md";
 import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import { ApiKey } from '../utils/Key';
 
 const GitHubBlog = () => {
   const [blogPosts, setBlogPosts] = useState([]);
@@ -14,7 +15,7 @@ const GitHubBlog = () => {
       const myHeaders = new Headers();
       myHeaders.append(
         'apiKey',
-        `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZvcnd1cmZwaHdrb3p1b3dkcGd5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjY3Mzc4ODMsImV4cCI6MjA0MjMxMzg4M30.RecumY6-7pD0Gh1_EXRibOfTuuDrBWAP7AtwfCiReFo` // Use your actual API key
+        `${ApiKey}` // Use your actual API key
       );
       myHeaders.append('Content-Type', 'application/json');
 

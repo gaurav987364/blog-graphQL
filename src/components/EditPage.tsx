@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router';
 import { useSearchParams } from 'react-router-dom';
+import { ApiKey } from '../utils/Key';
 
 interface BlogFormData {
   blogTitle: string;
@@ -39,7 +40,7 @@ const GitHubBlogEditor = () => {
 
   const createBlog = async (data: BlogFormData) => {
     const myHeaders = new Headers();
-    myHeaders.append("apiKey", `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZvcnd1cmZwaHdrb3p1b3dkcGd5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjY3Mzc4ODMsImV4cCI6MjA0MjMxMzg4M30.RecumY6-7pD0Gh1_EXRibOfTuuDrBWAP7AtwfCiReFo`); // Replace with your actual API key
+    myHeaders.append("apiKey", `${ApiKey}`); // Replace with your actual API key
     myHeaders.append("Content-Type", "application/json");
 
     const graphql = JSON.stringify({
@@ -75,7 +76,7 @@ const GitHubBlogEditor = () => {
 
   const updateBlog = async (data: BlogFormData) => {
     const myHeaders = new Headers();
-    myHeaders.append("apiKey", `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZvcnd1cmZwaHdrb3p1b3dkcGd5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjY3Mzc4ODMsImV4cCI6MjA0MjMxMzg4M30.RecumY6-7pD0Gh1_EXRibOfTuuDrBWAP7AtwfCiReFo`); // Replace with your actual API key
+    myHeaders.append("apiKey", `${ApiKey}`); // Replace with your actual API key
     myHeaders.append("Content-Type", "application/json");
 
     const graphql = JSON.stringify({
@@ -119,7 +120,7 @@ const GitHubBlogEditor = () => {
     console.log('Delete button clicked');
 
     const myHeaders = new Headers();
-    myHeaders.append("apiKey", `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZvcnd1cmZwaHdrb3p1b3dkcGd5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjY3Mzc4ODMsImV4cCI6MjA0MjMxMzg4M30.RecumY6-7pD0Gh1_EXRibOfTuuDrBWAP7AtwfCiReFo`); // Replace with your actual API key
+    myHeaders.append("apiKey", `${ApiKey}`); // Replace with your actual API key
     myHeaders.append("Content-Type", "application/json");
 
     const graphql = JSON.stringify({
