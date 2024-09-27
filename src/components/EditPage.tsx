@@ -9,7 +9,7 @@ interface BlogFormData {
   id?: string; // Make id optional since it may not be available during creation
 }
 
-export const apiKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZvcnd1cmZwaHdrb3p1b3dkcGd5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjY3Mzc4ODMsImV4cCI6MjA0MjMxMzg4M30.RecumY6-7pD0Gh1_EXRibOfTuuDrBWAP7AtwfCiReFo';
+
 
 
 
@@ -39,7 +39,7 @@ const GitHubBlogEditor = () => {
 
   const createBlog = async (data: BlogFormData) => {
     const myHeaders = new Headers();
-    myHeaders.append("apiKey", `${apiKey}`); // Replace with your actual API key
+    myHeaders.append("apiKey", `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZvcnd1cmZwaHdrb3p1b3dkcGd5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjY3Mzc4ODMsImV4cCI6MjA0MjMxMzg4M30.RecumY6-7pD0Gh1_EXRibOfTuuDrBWAP7AtwfCiReFo`); // Replace with your actual API key
     myHeaders.append("Content-Type", "application/json");
 
     const graphql = JSON.stringify({
@@ -75,7 +75,7 @@ const GitHubBlogEditor = () => {
 
   const updateBlog = async (data: BlogFormData) => {
     const myHeaders = new Headers();
-    myHeaders.append("apiKey", `${apiKey}`); // Replace with your actual API key
+    myHeaders.append("apiKey", `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZvcnd1cmZwaHdrb3p1b3dkcGd5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjY3Mzc4ODMsImV4cCI6MjA0MjMxMzg4M30.RecumY6-7pD0Gh1_EXRibOfTuuDrBWAP7AtwfCiReFo`); // Replace with your actual API key
     myHeaders.append("Content-Type", "application/json");
 
     const graphql = JSON.stringify({
@@ -119,7 +119,7 @@ const GitHubBlogEditor = () => {
     console.log('Delete button clicked');
 
     const myHeaders = new Headers();
-    myHeaders.append("apiKey", `${apiKey}`); // Replace with your actual API key
+    myHeaders.append("apiKey", `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZvcnd1cmZwaHdrb3p1b3dkcGd5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjY3Mzc4ODMsImV4cCI6MjA0MjMxMzg4M30.RecumY6-7pD0Gh1_EXRibOfTuuDrBWAP7AtwfCiReFo`); // Replace with your actual API key
     myHeaders.append("Content-Type", "application/json");
 
     const graphql = JSON.stringify({
